@@ -1,0 +1,43 @@
+# --- Experiment Metadata ---
+project_name: "pointcloud-classification"
+experiment_name: "PointNet-MN10-run-1"
+
+# --- Data Configuration ---
+data:
+  name: "PointCloudDataset"
+  path: "data/ModelNet10/PointClouds"
+  num_points: 1024
+  validation_split: 0.2
+  batch_size: 32
+  num_workers: 0
+
+# --- Model Configuration ---
+model:
+  name: "PointNet"
+  num_classes: 10
+  # PointNet-specific parameter.
+  feature_transform: True
+
+# --- Training Hyperparameters ---
+training:
+  epochs: 100
+  # Optimizer settings. Use "Adam" or "Adamw"
+  optimizer: "Adamw"
+  learning_rate: 0.0001 
+  weight_decay: 0.0001
+  label_smoothing: 0.1
+  augmentation: True
+  # PointNet has a regularization loss for the feature transform matrix.
+  # This is a hyperparameter to weight that loss.
+  feature_transform_regularizer: 0.001
+  resume_training: False
+
+# --- Learning Rate Scheduler ---
+scheduler:
+  # use "cosine" or "plateau" for learning rate schedualer, default is "cosine"
+  type: "cosine"
+  patience: 5
+  factor: 0.5
+
+# --- Output Paths ---
+output_dir: "experiments/"

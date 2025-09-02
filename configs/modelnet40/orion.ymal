@@ -1,0 +1,54 @@
+# --- Experiment Metadata ---
+# Used for logging and naming output folders.
+project_name: "pointcloud-classification"
+experiment_name: "ORION2Layer-MN40-Oriented-gamma0.5-run-1"
+
+# --- Data Configuration ---
+data:
+  # The name of the dataset class to use in your script's logic.
+  name: "VoxelizedOrientedDataset"
+  # Path to the PROCESSED data directory.
+  path: "data/modelnet40/VoxelizedOriented"
+  # Training parameters
+  batch_size: 32
+  num_workers: 0 # Number of parallel threads for data loading.
+
+# --- Model Configuration ---
+model:
+  # The name of the model class to instantiate.
+  name: "ORION2Layer"
+  # Model-specific parameters.
+  num_classes: 40
+  num_orientations: 12 # The maximum number of orientation bins.
+  input_size: 32     # The size of the voxel grid (32x32x32).
+
+# --- Training Hyperparameters ---
+training:
+  # The total number of epochs to train for.
+  epochs: 20
+  # Optimizer settings. Use "Adam" or "Adamw"
+  optimizer: "Adamw"
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  # The gamma hyperparameter for the multi-task loss.
+  gamma: 0.5
+  # Set to true if you want to resume from a checkpoint.
+  resume_training: False
+
+# --- Learning Rate Scheduler ---
+scheduler:
+  # use "cosine" or "plateau" for learning rate schedualer, default is "cosine"
+  type: "cosine"
+  patience: 5
+  factor: 0.5
+
+# --- Output Paths ---
+# Where to save checkpoints and logs for this experiment.
+# The experiment_name will be appended to this path.
+output_dir: "experiments/"
+
+# Final results will be saved as
+
+# output_dir/experiment_name/log.csv
+# output_dir/experiment_name/checkpoint.pth
+# output_dir/experiment_name/best_model.pth
